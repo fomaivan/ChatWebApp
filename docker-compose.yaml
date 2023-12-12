@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: ./server/
+    container_name: backend
+    ports:
+      - "8000:8000"
+    environment:
+      - AUTH_SIGNING_KEY=dfasvhsddddgfds
+      - DB_URI=api.db
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./client/
+    container_name: client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - PUBLIC_URL=localhost
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./nginx/
+    container_name: nginx
+    volumes:
+      - ./log:/log
+    depends_on:
+      - backend
+      - client
+    ports:
+      - "80:80"
+    restart: unless-stopped
