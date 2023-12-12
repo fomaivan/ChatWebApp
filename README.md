@@ -4,7 +4,7 @@
 
 # Installation
 
-Use the Docker Compose in root directory.
+Use docker compose in the project root.
 
 ```bash
 docker compose build
